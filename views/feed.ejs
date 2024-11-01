@@ -117,45 +117,33 @@
       return `${weeks}w`;
     }
 
-    document.querySelector(".parent").addEventListener("click", function (dets) {
-    // Check if the clicked element is the post image or the heart icon
-    const isPostImage = dets.target.classList.contains("postimg");
-    const isHeartIcon = dets.target.classList.contains("heart");
-
-    // Identify the post element
-    let post;
-    if (isPostImage) {
-        post = dets.target.closest(".post"); // Use closest to get the post element
-    } else if (isHeartIcon) {
-        post = dets.target.parentNode.parentNode; // If heart icon clicked
-    }
-
-    // If a post is identified, handle the like functionality
-    if (post) {
-        const heartIcon = isHeartIcon ? dets.target : post.querySelector(".heart");
-        const postId = heartIcon.dataset.postid; // Get the post ID from the heart icon
-
-        // Toggle the heart icon classes
-        if (heartIcon.classList.contains("ri-heart-3-line")) {
-            heartIcon.classList.remove("ri-heart-3-line");
-            heartIcon.classList.add("ri-heart-3-fill", "text-red-500");
-        } else {
-            heartIcon.classList.remove("ri-heart-3-fill", "text-red-500");
-            heartIcon.classList.add("ri-heart-3-line");
-        }
-
-        // Send the like/unlike request to the server
-        fetch(`/like/${postId}`)
+    document.querySelector(".parent")
+      .addEventListener("click", function (dets) {
+        if (dets.target.classList.contains("postimg")) {
+          var post = dets.target.parentNode.parentNode;
+          var heartwithborder = post.querySelector(".heart");
+          if (heartwithborder.classList.contains("ri-heart-3-line")) {
+            heartwithborder.classList.remove("ri-heart-3-line")
+            heartwithborder.classList.add("ri-heart-3-fill")
+            heartwithborder.classList.add("text-red-500")
+            // heartwithborder.style.color = "red";
+          }
+          else {
+            heartwithborder.classList.remove("ri-heart-3-fill")
+            heartwithborder.classList.remove("text-red-500")
+            heartwithborder.classList.add("ri-heart-3-line")
+          }
+          fetch(`/like/${dets.target.dataset.postid}`)
             .then(raw => raw.json())
             .then(response => {
-                post.querySelector(".likeval").textContent = response.like.length + " likes";
-            });
+              console.log(response.like.length);
+              post.querySelector(".likeval").textContent = response.like.length + " likes"
+            })
 
-        // Create the animated heart effect
-        var icon = document.createElement("i");
-        icon.classList.add("ri-heart-3-fill", "text-red-700", "text-6xl", "absolute", "top-1/2", "left-1/2", "-translate-x-[50%]", "-translate-y-[50%]", "z-[9]");
-        post.querySelector(".relative").appendChild(icon); // Append to the post image container
-
+          var icon = document.createElement("i");
+          icon.classList.add("ri-heart-3-fill");
+          icon.classList.add("text-red-700", "text-6xl", 'absolute', 'top-1/2', 'left-1/2', '-translate-x-[50%]', '-translate-y-[50%]', 'z-[9]');
+          dets.target.parentNode.appendChild(icon);
 
           gsap.from(icon, {
             scale: .5,

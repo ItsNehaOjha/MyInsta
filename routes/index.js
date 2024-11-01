@@ -59,13 +59,6 @@ router.get("/feed", isLoggedIn, async function (req, res) {
   });
 });
 
-router.get("/story", isLoggedIn, async (req, res) => {
-  const user = await userModel.findOne({ username: req.session.passport.user });
-  const uploadedImage = req.query.uploadedImage || null; 
-  res.render("story", {footer: true, user, uploadedImage }); 
-});
-
-
 router.get("/profile", isLoggedIn, async function (req, res) {
   let user = await userModel
     .findOne({ username: req.session.passport.user })
@@ -90,6 +83,7 @@ router.get("/profile/:user", isLoggedIn, async function (req, res) {
   res.render("userprofile", { footer: true, userprofile, user });
 });
 
+
 router.get("/follow/:userid", isLoggedIn, async function (req, res) {
   let followKarneWaala = await userModel.findOne({
     username: req.session.passport.user,
@@ -112,6 +106,16 @@ router.get("/follow/:userid", isLoggedIn, async function (req, res) {
   await followKarneWaala.save();
 
   res.redirect("back");
+});
+
+router.post("/upload-story", isLoggedIn, upload.single("image"), async function (req, res) {
+  if (req.file) {
+      const filename = req.file.filename;
+      // Respond with JSON containing the uploaded image filename
+      res.json({ success: true, filename });
+  } else {
+      res.json({ success: false });
+  }
 });
 
 router.get("/search", isLoggedIn, async function (req, res) {
@@ -193,19 +197,6 @@ router.post(
     res.redirect("/feed");
   }
 );
-router.post("/upload-story", isLoggedIn, upload.single("image"), async function (req, res) {
-  if (req.file) {
-      const filename = req.file.filename;
-      // Respond with JSON containing the uploaded image filename
-      res.json({ success: true, filename });
-  } else {
-      res.json({ success: false });
-  }
-});
-
-
-
-
 
 router.post(
   "/upload",

@@ -1,0 +1,62 @@
+<% include ./partials/header.ejs %>
+
+<form hidden id="fileform" method="post" enctype="multipart/form-data" action="/upload-story">
+  <input id="file" type="file" name="image" required>
+</form>
+
+<div class="w-full min-h-screen bg-zinc-900 text-white py-5">
+    <div class="flex justify-between items-center px-4">
+        <a class="text-sm text-blue-500" href="/profile"><i class="ri-arrow-left-s-line"></i> profile</a>
+        <h2 class="leading-none text-xl">Your Story</h2>
+        <a class="text-sm" href="/feed"><i class="ri-home-line"></i> home</a>
+    </div>
+
+    <div class="flex flex-col items-center gap-7 mt-20">
+        <div class="image w-40 h-80 bg-sky-100 rounded-[10px] overflow-hidden">
+            <% if (uploadedImage) { %>
+                <img class="w-full h-full object-cover" src="/images/uploads/<%= uploadedImage %>" alt="">
+            <% } else { %>
+                <img class="w-full h-full object-cover" src="/path/to/default/image.jpg" alt="Default Image">
+            <% } %>
+        </div>
+        <button id="uploadbtn" class="text-blue-500 capitalize">Upload Picture</button>
+        <input class="w-full bg-blue-500 px-3 py-3 rounded-md mt-2" type="submit" value="Post Story" id="postStoryBtn"> <!-- Updated button -->
+    </div>
+</div>
+
+<script>
+    // Open the file input when the "Upload Picture" button is clicked
+    document.querySelector("#uploadbtn").addEventListener("click", function() {
+        document.querySelector("#file").click();
+    });
+
+    // Handle file selection
+    document.querySelector("#file").addEventListener("change", async function() {
+        const formData = new FormData();
+        formData.append("image", document.querySelector("#file").files[0]);
+
+        // Send the image to the server using Fetch API
+        const response = await fetch("/upload-story", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        // If upload was successful, show the uploaded image on the page
+        if (result.success) {
+            document.querySelector(".image img").src = `/images/uploads/${result.filename}`;
+            document.querySelector("#postStoryBtn").disabled = false;  // Enable "Post Story" button
+        } else {
+            alert("Failed to upload image. Please try again.");
+        }
+    });
+
+    // Redirect to the feed page when "Post Story" is clicked
+    document.querySelector("#postStoryBtn").addEventListener("click", function() {
+        window.location.href = "/feed"; // Redirect to feed page
+    });
+</script>
+
+
+<% include ./partials/footer.ejs %>

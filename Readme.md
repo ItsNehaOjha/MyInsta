@@ -75,3 +75,6 @@ Make sure you have the following installed on your machine:
    3. Like and on your friends' posts.
    4. Explore user profiles to see their posts and activities.
    5. Ensure to view the application on a mobile device for the best experience!
+
+### LICENSE
+ [MIT License](LICENSE)

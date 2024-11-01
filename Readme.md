@@ -1,5 +1,10 @@
 # Instagram Clone 
-# Linkdin post : https://www.linkedin.com/feed/update/urn:li:activity:7258127321335758849/
+
+[LinkedIn Post](https://www.linkedin.com/feed/update/urn:li:activity:7258127321335758849/){:target="_blank"}
+
+
+Welcome to the Instagram Clone project! This project replicates some of the core features of Instagram, allowing users to share photos and interact with each other in a social media environment. This is a great project for learning about full-stack development, including EJS for the frontend and Node.js/Express for the backend.
+Please watch in mobile view.
 
 Welcome to the Instagram Clone project! This project replicates some of the core features of Instagram, allowing users to share photos and interact with each other in a social media environment. This is a great project for learning about full-stack development, including EJS for the frontend and Node.js/Express for the backend.
 Please watch in mobile view.

@@ -56,7 +56,7 @@ Make sure you have the following installed on your machine:
 
 
 2. **Navigate to the project directory**:
-    cd instaclone
+    cd MyInsta
 
 3. **Install npm**:
     npm i
@@ -66,7 +66,7 @@ Make sure you have the following installed on your machine:
 
 ### Running the application
 
-1. **In a new terminal window, ensure you are in instaclone directory and run:**
+1. **In a new terminal window, ensure you are in MyInsta directory and run:**
     npx nodemon 
 
 2. **open the browser and Visit:**
